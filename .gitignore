@@ -1,0 +1,26 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Сборки и временные папки
+x64/
+Debug/
+Release/
+ipch/
+
+# CMake (на будущее)
+build/
+cmake-build-*/
+
+# Исполняемые файлы (не заливаем на GitHub)
+*.exe
+*.dll
+*.lib
+*.pdb
+
+# Системный мусор
+.DS_Store
+Thumbs.db
