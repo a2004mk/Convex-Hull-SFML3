@@ -1,39 +1,39 @@
-// EditPointWindow.cpp
+п»ї// EditPointWindow.cpp
 #include "EditPointWindow.h"
 #include "ConvexHull.h"
 
-// конструктор: инициализация окна редактора (поля, кнопки, текст)
+// РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ: РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РѕРєРЅР° СЂРµРґР°РєС‚РѕСЂР° (РїРѕР»СЏ, РєРЅРѕРїРєРё, С‚РµРєСЃС‚)
 EditPointWindow::EditPointWindow(const sf::Font& font)
-    : title(font, L"Редактор точки", 20)
+    : title(font, L"Р РµРґР°РєС‚РѕСЂ С‚РѕС‡РєРё", 20)
     , inputX(font, "X (50-1150):", { 520, 350 }, { 150, 30 }, true)
     , inputY(font, "Y (150-750):", { 520, 410 }, { 150, 30 }, false)
-    , saveButton(font, L"Сохранить", { 480, 465 }, { 100, 30 }, "save")
-    , cancelButton(font, L"Отмена", { 600, 465 }, { 100, 30 }, "cancel")
+    , saveButton(font, L"РЎРѕС…СЂР°РЅРёС‚СЊ", { 480, 465 }, { 100, 30 }, "save")
+    , cancelButton(font, L"РћС‚РјРµРЅР°", { 600, 465 }, { 100, 30 }, "cancel")
     , errorText(font, L"", 14)
     , isVisible(false)
     , currentPoint(nullptr)
     , hasError(false) {
 
-    // фон окна редактора
+    // С„РѕРЅ РѕРєРЅР° СЂРµРґР°РєС‚РѕСЂР°
     background.setSize({ 260, 220 });
     background.setPosition({ 460, 290 });
     background.setFillColor(sf::Color(30, 30, 40));
     background.setOutlineThickness(2);
     background.setOutlineColor(sf::Color(220, 230, 240));
 
-    // заголовок окна
+    // Р·Р°РіРѕР»РѕРІРѕРє РѕРєРЅР°
     title.setFillColor(sf::Color(220, 230, 240));
     title.setPosition({ 515, 300 });
 
-    // текст ошибки (красный, внизу)
+    // С‚РµРєСЃС‚ РѕС€РёР±РєРё (РєСЂР°СЃРЅС‹Р№, РІРЅРёР·Сѓ)
     errorText.setFillColor(sf::Color::Red);
     errorText.setPosition({ 500, 445 });
 }
 
-// показать окно для редактирования точки
+// РїРѕРєР°Р·Р°С‚СЊ РѕРєРЅРѕ РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ С‚РѕС‡РєРё
 void EditPointWindow::show(Point& point) {
     currentPoint = &point;
-    originalPoint = point;  // запомнить исходные значения для отмены
+    originalPoint = point;  // Р·Р°РїРѕРјРЅРёС‚СЊ РёСЃС…РѕРґРЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ РґР»СЏ РѕС‚РјРµРЅС‹
     inputX.setValue(point.x);
     inputY.setValue(point.y);
     hasError = false;
@@ -41,62 +41,62 @@ void EditPointWindow::show(Point& point) {
     isVisible = true;
 }
 
-// скрыть окно редактора
+// СЃРєСЂС‹С‚СЊ РѕРєРЅРѕ СЂРµРґР°РєС‚РѕСЂР°
 void EditPointWindow::hide() {
     isVisible = false;
     currentPoint = nullptr;
 }
 
-// проверка видимости окна
+// РїСЂРѕРІРµСЂРєР° РІРёРґРёРјРѕСЃС‚Рё РѕРєРЅР°
 bool EditPointWindow::isShown() const { return isVisible; }
 
-// обработка событий мыши и клавиатуры
+// РѕР±СЂР°Р±РѕС‚РєР° СЃРѕР±С‹С‚РёР№ РјС‹С€Рё Рё РєР»Р°РІРёР°С‚СѓСЂС‹
 void EditPointWindow::handleEvent(const sf::Event& event, std::vector<Point>& points, std::vector<Point>& hull) {
     if (!isVisible) return;
 
-    // передача события полям ввода
+    // РїРµСЂРµРґР°С‡Р° СЃРѕР±С‹С‚РёСЏ РїРѕР»СЏРј РІРІРѕРґР°
     inputX.handleEvent(event);
     inputY.handleEvent(event);
 
-    // отпускание кнопки мыши (клик по кнопкам)
+    // РѕС‚РїСѓСЃРєР°РЅРёРµ РєРЅРѕРїРєРё РјС‹С€Рё (РєР»РёРє РїРѕ РєРЅРѕРїРєР°Рј)
     if (event.is<sf::Event::MouseButtonReleased>()) {
         const sf::Event::MouseButtonReleased* mouseReleased = event.getIf<sf::Event::MouseButtonReleased>();
         if (mouseReleased) {
-            // нажата "Сохранить"
+            // РЅР°Р¶Р°С‚Р° "РЎРѕС…СЂР°РЅРёС‚СЊ"
             if (saveButton.handleEvent(*mouseReleased)) {
                 bool xValid = inputX.isValidValue();
                 bool yValid = inputY.isValidValue();
 
-                // координаты валидны — обновляем точку
+                // РєРѕРѕСЂРґРёРЅР°С‚С‹ РІР°Р»РёРґРЅС‹ вЂ” РѕР±РЅРѕРІР»СЏРµРј С‚РѕС‡РєСѓ
                 if (xValid && yValid) {
                     if (currentPoint) {
                         currentPoint->x = inputX.getValue();
                         currentPoint->y = inputY.getValue();
-                        hull = convexHull(points);  // пересчёт оболочки
+                        hull = convexHull(points);  // РїРµСЂРµСЃС‡С‘С‚ РѕР±РѕР»РѕС‡РєРё
                     }
                     hide();
                 }
-                // ошибка валидации — показываем сообщение
+                // РѕС€РёР±РєР° РІР°Р»РёРґР°С†РёРё вЂ” РїРѕРєР°Р·С‹РІР°РµРј СЃРѕРѕР±С‰РµРЅРёРµ
                 else {
                     hasError = true;
                     if (!xValid && !yValid) {
-                        errorText.setString(L"X и Y вне допустимых пределов!");
+                        errorText.setString(L"X Рё Y РІРЅРµ РґРѕРїСѓСЃС‚РёРјС‹С… РїСЂРµРґРµР»РѕРІ!");
                     }
                     else if (!xValid) {
-                        errorText.setString(L"X должен быть от 50 до 1150!");
+                        errorText.setString(L"X РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РѕС‚ 50 РґРѕ 1150!");
                     }
                     else {
-                        errorText.setString(L"Y должен быть от 150 до 750!");
+                        errorText.setString(L"Y РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РѕС‚ 150 РґРѕ 750!");
                     }
                 }
             }
-            // нажата "Отмена" — закрываем без изменений
+            // РЅР°Р¶Р°С‚Р° "РћС‚РјРµРЅР°" вЂ” Р·Р°РєСЂС‹РІР°РµРј Р±РµР· РёР·РјРµРЅРµРЅРёР№
             else if (cancelButton.handleEvent(*mouseReleased)) {
                 hide();
             }
         }
     }
-    // движение мыши — обновление состояния кнопок
+    // РґРІРёР¶РµРЅРёРµ РјС‹С€Рё вЂ” РѕР±РЅРѕРІР»РµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ РєРЅРѕРїРѕРє
     else if (event.is<sf::Event::MouseMoved>()) {
         const sf::Event::MouseMoved* mouseMoved = event.getIf<sf::Event::MouseMoved>();
         if (mouseMoved) {
@@ -104,7 +104,7 @@ void EditPointWindow::handleEvent(const sf::Event& event, std::vector<Point>& po
             cancelButton.handleEvent(*mouseMoved);
         }
     }
-    // нажатие мыши — для визуального эффекта кнопок
+    // РЅР°Р¶Р°С‚РёРµ РјС‹С€Рё вЂ” РґР»СЏ РІРёР·СѓР°Р»СЊРЅРѕРіРѕ СЌС„С„РµРєС‚Р° РєРЅРѕРїРѕРє
     else if (event.is<sf::Event::MouseButtonPressed>()) {
         const sf::Event::MouseButtonPressed* mousePressed = event.getIf<sf::Event::MouseButtonPressed>();
         if (mousePressed) {
@@ -114,14 +114,14 @@ void EditPointWindow::handleEvent(const sf::Event& event, std::vector<Point>& po
     }
 }
 
-// обновление анимации курсора в полях ввода
+// РѕР±РЅРѕРІР»РµРЅРёРµ Р°РЅРёРјР°С†РёРё РєСѓСЂСЃРѕСЂР° РІ РїРѕР»СЏС… РІРІРѕРґР°
 void EditPointWindow::update() {
     if (!isVisible) return;
     inputX.update();
     inputY.update();
 }
 
-// отрисовка окна редактора (фон, текст, поля, кнопки, ошибки)
+// РѕС‚СЂРёСЃРѕРІРєР° РѕРєРЅР° СЂРµРґР°РєС‚РѕСЂР° (С„РѕРЅ, С‚РµРєСЃС‚, РїРѕР»СЏ, РєРЅРѕРїРєРё, РѕС€РёР±РєРё)
 void EditPointWindow::draw(sf::RenderWindow& window, const sf::Font& font) {
     if (!isVisible) return;
 
@@ -132,7 +132,7 @@ void EditPointWindow::draw(sf::RenderWindow& window, const sf::Font& font) {
     saveButton.draw(window);
     cancelButton.draw(window);
 
-    // показ текста ошибки если есть
+    // РїРѕРєР°Р· С‚РµРєСЃС‚Р° РѕС€РёР±РєРё РµСЃР»Рё РµСЃС‚СЊ
     if (hasError) {
         window.draw(errorText);
     }

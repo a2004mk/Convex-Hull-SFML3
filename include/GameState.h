@@ -1,4 +1,4 @@
-// GameState.h
+п»ї// GameState.h
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -10,22 +10,22 @@
 constexpr float POINT_SELECTION_RADIUS = 20.0f;
 
 struct GameState {
-    // Данные
+    // Р”Р°РЅРЅС‹Рµ
     std::vector<Point> points;
     std::vector<Point> hull;
 
-    // Режимы
+    // Р РµР¶РёРјС‹
     bool addMode;
     bool editMode;
     int selectedPointIndex;
     sf::Vector2f mousePos;
 
-    // Генераторы случайных чисел
+    // Р“РµРЅРµСЂР°С‚РѕСЂС‹ СЃР»СѓС‡Р°Р№РЅС‹С… С‡РёСЃРµР»
     std::mt19937 gen;
     std::uniform_real_distribution<float> distX;
     std::uniform_real_distribution<float> distY;
 
-    // Графические объекты
+    // Р“СЂР°С„РёС‡РµСЃРєРёРµ РѕР±СЉРµРєС‚С‹
     sf::CircleShape pointShape;
     sf::CircleShape hullPointShape;
     sf::CircleShape selectedPointShape;
@@ -41,7 +41,7 @@ struct GameState {
     int findPointNear(const sf::Vector2f& pos, float threshold) const;
 };
 
-// Конфигурация
+// РљРѕРЅС„РёРіСѓСЂР°С†РёСЏ
 struct GameConfig {
     static const sf::Vector2f BUTTON_POSITIONS[7];
     static const sf::Vector2f BUTTON_SIZES[7];

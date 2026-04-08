@@ -1,4 +1,4 @@
-// InputHandler.h
+﻿// InputHandler.h
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>

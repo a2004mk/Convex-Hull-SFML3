@@ -1,4 +1,4 @@
-// Renderer.h
+п»ї// Renderer.h
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "GameState.h"
@@ -8,7 +8,7 @@ class Renderer {
 private:
     sf::RenderWindow& window;
     sf::Font& font;
-    GameState& gameState;  // Убрали const
+    GameState& gameState;  // РЈР±СЂР°Р»Рё const
     const std::vector<Button>& buttons;
 
     void drawWorkArea();
@@ -16,12 +16,12 @@ private:
     void drawHull();
     void drawPreview();
     void drawUI();
-    void drawEditWindow(EditPointWindow& editWindow);  // Убрали const
+    void drawEditWindow(EditPointWindow& editWindow);  // РЈР±СЂР°Р»Рё const
 
 public:
     Renderer(sf::RenderWindow& wnd, sf::Font& fnt,
-        GameState& state, const std::vector<Button>& btns);  // Убрали const у state
+        GameState& state, const std::vector<Button>& btns);  // РЈР±СЂР°Р»Рё const Сѓ state
 
-    void render(EditPointWindow& editWindow);  // Убрали const
+    void render(EditPointWindow& editWindow);  // РЈР±СЂР°Р»Рё const
 };
 // Encoding fix check

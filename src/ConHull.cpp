@@ -1,4 +1,5 @@
 ﻿// main.cpp
+//fix
 #include <SFML/Graphics.hpp> //Графика и окна
 #include <iostream> 
 #include <optional> //pollEvent()

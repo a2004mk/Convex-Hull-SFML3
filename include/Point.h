@@ -1,4 +1,4 @@
-// Point.h
+п»ї// Point.h
 #pragma once
 #include <vector>
 
@@ -9,13 +9,13 @@ struct Point {
     bool operator!=(const Point& other) const;
 };
 
-// Геометрические константы
+// Р“РµРѕРјРµС‚СЂРёС‡РµСЃРєРёРµ РєРѕРЅСЃС‚Р°РЅС‚С‹
 extern const float WORK_AREA_MIN_X;
 extern const float WORK_AREA_MAX_X;
 extern const float WORK_AREA_MIN_Y;
 extern const float WORK_AREA_MAX_Y;
 
-// Геометрические функции
+// Р“РµРѕРјРµС‚СЂРёС‡РµСЃРєРёРµ С„СѓРЅРєС†РёРё
 void clampPoint(Point& point);
 float orientation(const Point& pivot, const Point& p, const Point& q);
 float distSq(const Point& pivot, const Point& p);

@@ -1,4 +1,4 @@
-// EditPointWindow.h
+﻿// EditPointWindow.h
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Point.h"
