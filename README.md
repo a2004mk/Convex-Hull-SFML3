@@ -39,24 +39,25 @@ Linux/macOS: ./ConHull
 ```
 
 ### Windows
+Важно: Укажите правильные пути к SFML (-I для заголовков, -L для библиотек). Если SFML установлен в другую папку, измените путь соответственно
 
 #### Прямая компиляция через g++
 ```batch
 :: Компиляция всех файлов + линковка SFML
 g++ -std=c++17 -Wall -mwindows ^
     -I"C:\SFML\include" -L"C:\SFML\lib" ^
-    Convex-Hull.cpp ^
+    ConHull.cpp ^
     Point.cpp GameState.cpp Renderer.cpp ^
     InputHandler.cpp Button.cpp InputField.cpp ^
     EditPointWindow.cpp ConvexHull.cpp ^
     -lsfml-graphics -lsfml-window -lsfml-system ^
-    -o Convex-Hull.exe
+    -o ConHull.exe
 
 :: Копирование ресурсов (обязательно!)
 xcopy /E /I resources resources\
 
 :: Запуск
-Convex-Hull.exe
+ConHull.exe
 ```
 ### С помощью Makefile (рекомендуется)
 ```batch
@@ -73,7 +74,7 @@ cmake --build . --config Release
 xcopy /E /I ..\resources Release\resources\
 
 :: Запуск
-Release\Convex-Hull.exe
+Release\ConHull.exe
 ```
 ### Linux|macOS
 ```batch
@@ -88,14 +89,14 @@ cmake --build .
 cp -r ../resources ./
 
 # Запуск
-./Convex-Hull
+./ConHull
 ```
 
 ## 📊 Архитектура проекта
 
 ```mermaid
 graph TD
-    Main[main.cpp] --> State[GameState]
+    Main[ConHull.cpp] --> State[GameState]
     Main --> Input[InputHandler]
     Main --> Render[Renderer]
     Main --> EditWin[EditPointWindow]
