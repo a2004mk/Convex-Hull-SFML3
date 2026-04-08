@@ -37,7 +37,88 @@ cmake --build . --config Release
 Windows: .\Release\ConHull.exe
 Linux/macOS: ./ConHull
 ```
+
+### Windows
+
+#### Прямая компиляция через g++
+```batch
+:: Компиляция всех файлов + линковка SFML
+g++ -std=c++17 -Wall -mwindows ^
+    -I"C:\SFML\include" -L"C:\SFML\lib" ^
+    Convex-Hull.cpp ^
+    Point.cpp GameState.cpp Renderer.cpp ^
+    InputHandler.cpp Button.cpp InputField.cpp ^
+    EditPointWindow.cpp ConvexHull.cpp ^
+    -lsfml-graphics -lsfml-window -lsfml-system ^
+    -o Convex-Hull.exe
+
+:: Копирование ресурсов (обязательно!)
+xcopy /E /I resources resources\
+
+:: Запуск
+Convex-Hull.exe
+```
+### С помощью Makefile (рекомендуется)
+```batch
+:: Создание папки сборки
+mkdir build && cd build
+
+:: Генерация проекта
+cmake .. -G "MinGW Makefiles" -DSFML_DIR="C:/SFML/lib/cmake/SFML"
+
+:: Сборка
+cmake --build . --config Release
+
+:: Копирование ресурсов
+xcopy /E /I ..\resources Release\resources\
+
+:: Запуск
+Release\Convex-Hull.exe
+```
+### Linux|macOS
+```batch
+# Создание папки сборки
+mkdir build && cd build
+
+# Генерация + сборка
+cmake .. -DCMAKE_BUILD_TYPE=Release
+cmake --build .
+
+# Копирование ресурсов
+cp -r ../resources ./
+
+# Запуск
+./Convex-Hull
+```
+
+## 📊 Архитектура проекта
+
+```mermaid
+graph TD
+    Main[main.cpp] --> State[GameState]
+    Main --> Input[InputHandler]
+    Main --> Render[Renderer]
+    Main --> EditWin[EditPointWindow]
+    
+    Input --> State
+    Input --> Btn[Button]
+    Input --> Field[InputField]
+    
+    Render --> State
+    Render --> Btn
+    Render --> Field
+    Render --> EditWin
+    
+    EditWin --> Field
+    EditWin --> Btn
+    
+    State --> Point[Point]
+    State --> Hull[ConvexHull]
+    
+    Hull --> Point
+```
 ### 📁 Структура проекта 
+
 Convex-Hull/  
 ├── src/                 # Исходный код (.cpp)  
 │   ├── ConHull.cpp      # Точка входа, цикл обработки событий SFML 3 (main)  
