@@ -31,7 +31,7 @@ std::vector<Point> convexHull(std::vector<Point> points) {
     std::swap(points[0], points[minYIndex]);
     Point pivot = points[0];
 
-    //сортировка остальных точек по углу относительно pivot
+    //сортировка (изменена, теперь sort, вместо пузырька) остальных точек по углу относительно pivot
     std::sort(points.begin() + 1, points.end(),
         [&pivot](const Point& a, const Point& b) {
             float orient = orientation(pivot, a, b);
