@@ -32,14 +32,14 @@ std::vector<Point> convexHull(std::vector<Point> points) {
     Point pivot = points[0];
 
     //сортировка остальных точек по углу относительно pivot
-
-    for (size_t i = 1; i < n; i++) {
-        for (size_t j = i + 1; j < n; j++) {
-            if (compareWithPivot(pivot, points[j], points[i])) {
-                std::swap(points[i], points[j]);
+    std::sort(points.begin() + 1, points.end(),
+        [&pivot](const Point& a, const Point& b) {
+            float orient = orientation(pivot, a, b);
+            if (orient == 0) {
+                return distSq(pivot, a) < distSq(pivot, b);
             }
-        }
-    }
+            return orient > 0;
+        });
 
     //точки, лежащие на одном луче от pivot, убираются (оставляем самую дальнюю)
     std::vector<Point> uniquePoints;
